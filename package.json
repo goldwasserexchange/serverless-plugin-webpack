@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-webpack",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Serverless Plugin Webpack",
   "main": "index.js",
   "repository": {
