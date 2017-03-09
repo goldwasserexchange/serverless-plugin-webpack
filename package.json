@@ -1,0 +1,42 @@
+{
+  "name": "serverless-plugin-webpack",
+  "version": "0.0.1",
+  "description": "Serverless Plugin Webpack",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goldwasserexchange/serverless-plugin-webpack.git"
+  },
+  "scripts": {
+    "lint": "eslint . --ignore-path .gitignore"
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "rules": {
+      "comma-dangle": [
+        2,
+        "always-multiline"
+      ],
+      "linebreak-style": 0
+    },
+    "env": {
+      "node": true
+    }
+  },
+  "author": "Jonathan Goldwasser <jonathan@goldwasserexchange.be>",
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^2.0.0",
+    "ramda": "^0.23.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0"
+  },
+  "peerDependencies": {
+    "webpack": "2.x"
+  }
+}

@@ -1,0 +1,67 @@
+# Serverless Plugin Webpack
+
+[![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
+[![npm version](https://badge.fury.io/js/serverless-plugin-webpack.svg)](https://badge.fury.io/js/serverless-plugin-webpack)
+
+A [serverless](http://www.serverless.com) plugin to **automatically** bundle your functions **individually** with [webpack](https://webpack.js.org).
+
+Compared to other webpack/optimization plugins, this plugin has the following features/advantages:
+- Zero configuration
+- Functions are packaged individually, resulting in Lambda deployment packages (zip) containing only the code needed to run the function (no bloat)
+- Uses an *array* of webpack configurations instead of one webpack configuration with multiple entry points, resulting in better tree-shaking because dependencies are isolated (see [Tree shaking](https://github.com/FormidableLabs/formidable-playbook/blob/master/docs/frontend/webpack-tree-shaking.md)).
+
+This plugin is partially based on [Serverless Webpack](https://github.com/elastic-coders/serverless-webpack).
+
+## Install
+Using npm:
+```
+npm install serverless-plugin-webpack --save-dev
+```
+
+Add the plugin to your `serverless.yml` file:
+```yaml
+plugins:
+  - serverless-plugin-webpack
+```
+
+## Webpack configuration
+The plugin will look for a `webpack.config.js` in the service root.
+
+The `entry` and `output` objects are set by the plugin.
+
+Example of webpack config:
+```javascript
+module.exports = {
+  // entry: set by the plugin
+  // output: set by the plugin
+  target: 'node',
+  externals: [
+    /aws-sdk/, // Available on AWS Lambda
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: [
+            [
+              'env',
+              {
+                target: { node: 4.3 }, // Node version on AWS Lambda
+                useBuiltIns: true,
+                modules: false,
+                loose: true,
+              },
+            ],
+            'stage-0',
+          ],
+        },
+      },
+    ],
+  },
+};
+```
+
+If you want to further optimize the bundle and are using ES6 features, you can use the [UglifyJS Webpack Plugin](https://github.com/webpack-contrib/uglifyjs-webpack-plugin) together with the harmony branch of [UglifyJS 2](https://github.com/mishoo/UglifyJS2#harmony) or the [Babili Webpack Plugin](https://github.com/webpack-contrib/babili-webpack-plugin).
