@@ -45,7 +45,7 @@ test('createConfigs', () => {
 });
 
 describe('run', () => {
-  require('webpack'); // eslint-disable-line global-require
+  require('webpack'); // eslint-disable-line global-require, import/no-unresolved
 
   test('run', () =>
     wpack.run('config')

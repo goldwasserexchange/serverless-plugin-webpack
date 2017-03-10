@@ -28,7 +28,8 @@ class ServerlessPluginWebpack {
     this.serverless.cli.log('Bundling with webpack...');
 
     // Load webpack config
-    const webpackConfig = require(path.join(this.serverless.config.servicePath, 'webpack.config.js')); // eslint-disable-line
+    // eslint-disable-next-line global-require, import/no-dynamic-require
+    const webpackConfig = require(path.join(this.serverless.config.servicePath, 'webpack.config.js'));
 
     // Save original service path and functions
     this.originalServicePath = this.serverless.config.servicePath;
