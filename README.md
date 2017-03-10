@@ -2,6 +2,9 @@
 
 [![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
 [![npm version](https://badge.fury.io/js/serverless-plugin-webpack.svg)](https://badge.fury.io/js/serverless-plugin-webpack)
+[![Build Status](https://travis-ci.org/goldwasserexchange/serverless-plugin-webpack.svg?branch=master)](https://travis-ci.org/goldwasserexchange/serverless-plugin-webpack)
+[![Coverage Status](https://coveralls.io/repos/github/goldwasserexchange/serverless-plugin-webpack/badge.svg?branch=master)](https://coveralls.io/github/goldwasserexchange/serverless-plugin-webpack?branch=master)
+[![dependencies](https://david-dm.org/goldwasserexchange/serverless-plugin-webpack.svg)](https://www.npmjs.com/package/serverless-plugin-webpack)
 
 A [serverless](http://www.serverless.com) plugin to **automatically** bundle your functions **individually** with [webpack](https://webpack.js.org).
 
