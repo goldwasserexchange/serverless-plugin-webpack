@@ -8,7 +8,8 @@
     "url": "https://github.com/goldwasserexchange/serverless-plugin-webpack.git"
   },
   "scripts": {
-    "lint": "eslint . --ignore-path .gitignore"
+    "lint": "eslint . --ignore-path .gitignore",
+    "test": "jest --coverage"
   },
   "eslintConfig": {
     "extends": "airbnb",
@@ -35,7 +36,8 @@
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.0"
+    "eslint-plugin-react": "^6.10.0",
+    "jest": "^19.0.2"
   },
   "peerDependencies": {
     "webpack": "2.x"
