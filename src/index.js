@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
-const R = require('ramda');
-const webpack = require('webpack');
+const functions = require('./lib/functions');
+const wpack = require('./lib/wpack');
 
 // Folders
 const serverlessFolder = '.serverless';
@@ -12,14 +12,6 @@ const webpackDefaultOutput = {
   libraryTarget: 'commonjs2',
   filename: '[name]',
 };
-
-// Utils
-const list = R.unapply(R.identity);
-const handlerExport = R.compose(R.last, R.split('.'));
-const handlerPath = handler => R.replace(handlerExport(handler), 'js', handler);
-const handlerFile = R.compose(path.basename, handlerPath);
-const filename = R.compose(handlerFile, R.prop('handler'));
-const handlerModifiedExport = handler => R.replace('js', handlerExport(handler), handlerFile(handler));
 
 class ServerlessPluginWebpack {
   constructor(serverless, options) {
@@ -38,33 +30,12 @@ class ServerlessPluginWebpack {
     // Load webpack config
     const webpackConfig = require(path.join(this.serverless.config.servicePath, 'webpack.config.js')); // eslint-disable-line
 
-    // Save original service path
+    // Save original service path and functions
     this.originalServicePath = this.serverless.config.servicePath;
+    this.originalFunctions = this.serverless.service.functions;
 
     // Fake service path so that serverless will know what to zip
     this.serverless.config.servicePath = path.join(this.originalServicePath, webpackFolder);
-
-    // Create list of webpack configs
-    const configs = R.map(
-      fn =>
-        R.pipe(
-          R.assoc( // Set webpack entry
-            'entry',
-            R.objOf(
-              filename(fn),
-              path.join(this.originalServicePath, handlerPath(fn.handler))
-            )
-          ),
-          R.assoc(// Set output
-            'output',
-            R.merge(
-              webpackDefaultOutput,
-              { path: path.join(this.originalServicePath, webpackFolder) }
-            )
-          )
-        )(Object.assign({}, webpackConfig)), // Clone original config
-      R.values(this.serverless.service.functions)
-    );
 
     // Package individually and exclude everything at the service level
     this.serverless.service.package = {
@@ -73,36 +44,20 @@ class ServerlessPluginWebpack {
     };
 
     // Include bundle and update handler at function level
-    this.serverless.service.functions = R.map(
-      R.pipe(
-        fn => R.assocPath(
-          ['package', 'include'],
-          R.compose(list, handlerFile, R.prop('handler'))(fn),
-          fn
-        ),
-        R.over(R.lensProp('handler'), handlerModifiedExport)
-      ),
+    this.serverless.service.functions = functions.setPackageAndHandler(
       this.serverless.service.functions
     );
 
     // Run webpack
-    return new Promise((resolve, reject) => {
-      webpack(configs, (err, stats) => {
-        if (err) reject(`Webpack compilation error: ${err}`);
-
-        // Log webpack stats
-        this.serverless.cli.consoleLog(stats.toString({
-          colors: true,
-          hash: false,
-          chunks: false,
-          version: false,
-        }));
-
-        if (stats.hasErrors()) reject('Webpack compilation error, see stats above');
-
-        resolve();
-      });
-    });
+    return wpack.run(
+      wpack.createConfigs(
+        this.originalFunctions,
+        webpackConfig,
+        this.originalServicePath,
+        webpackDefaultOutput,
+        webpackFolder
+      )
+    );
   }
 
   afterCreateDeploymentArtifacts() {
@@ -118,11 +73,8 @@ class ServerlessPluginWebpack {
           if (err) reject(err);
 
           // Update artifacts path
-          this.serverless.service.functions = R.map(
-            R.over(
-              R.lensProp('artifact'),
-              a => path.join(this.originalServicePath, serverlessFolder, path.basename(a))
-            ),
+          this.serverless.service.functions = functions.setArtifacts(
+            path.join(this.originalServicePath, serverlessFolder),
             this.serverless.service.functions
           );
 
