@@ -70,29 +70,19 @@ class ServerlessPluginWebpack {
     // Restore service path
     this.serverless.config.servicePath = this.originalServicePath;
 
-    // Copy .webpack to .serverless
-    return new Promise((resolve, reject) => {
-      fs.copy(
-        path.join(this.originalServicePath, webpackFolder, serverlessFolder),
-        path.join(this.originalServicePath, serverlessFolder),
-        (err) => {
-          if (err) reject(err);
-
-          // Update artifacts path when packaging a service
-          if (type === 'service') {
-            this.serverless.service.functions = functions.setArtifacts(
-              path.join(this.originalServicePath, serverlessFolder),
-              this.serverless.service.functions
-            );
-          }
-
-          // Remove webpack folder
-          fs.removeSync(path.join(this.originalServicePath, webpackFolder));
-
-          resolve();
+    // Copy .webpack/.serverless to .serverless and remove .webpack
+    const src = path.join(this.originalServicePath, webpackFolder, serverlessFolder);
+    const dest = path.join(this.originalServicePath, serverlessFolder);
+    return fs.copy(src, dest)
+      .then(() => {
+        if (type === 'service') {
+          this.serverless.service.functions = functions.setArtifacts(
+            dest,
+            this.serverless.service.functions
+          );
         }
-      );
-    });
+        return fs.remove(path.join(this.originalServicePath, webpackFolder));
+      });
   }
 }
 
