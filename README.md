@@ -10,6 +10,7 @@ A [serverless](http://www.serverless.com) plugin to **automatically** bundle you
 
 Compared to other webpack/optimization plugins, this plugin has the following features/advantages:
 - Zero configuration
+- Supports `sls package`, `sls deploy` and `sls deploy function`
 - Functions are packaged individually, resulting in Lambda deployment packages (zip) containing only the code needed to run the function (no bloat)
 - Uses an *array* of webpack configurations instead of one webpack configuration with multiple entry points, resulting in better tree-shaking because dependencies are isolated (see [Tree shaking](https://github.com/FormidableLabs/formidable-playbook/blob/master/docs/frontend/webpack-tree-shaking.md)).
 
