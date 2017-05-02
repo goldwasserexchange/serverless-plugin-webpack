@@ -19,8 +19,8 @@ class ServerlessPluginWebpack {
     this.options = options;
 
     this.hooks = {
-      'before:deploy:createDeploymentArtifacts': this.beforeCreateDeploymentArtifacts.bind(this),
-      'after:deploy:createDeploymentArtifacts': this.afterCreateDeploymentArtifacts.bind(this),
+      'before:package:createDeploymentArtifacts': this.beforeCreateDeploymentArtifacts.bind(this),
+      'after:package:createDeploymentArtifacts': this.afterCreateDeploymentArtifacts.bind(this),
     };
   }
 
