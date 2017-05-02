@@ -1,5 +1,7 @@
 # Serverless Plugin Webpack
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/goldwasserexchange/serverless-plugin-webpack.svg)](https://greenkeeper.io/)
+
 [![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
 [![npm version](https://badge.fury.io/js/serverless-plugin-webpack.svg)](https://badge.fury.io/js/serverless-plugin-webpack)
 [![Build Status](https://travis-ci.org/goldwasserexchange/serverless-plugin-webpack.svg?branch=master)](https://travis-ci.org/goldwasserexchange/serverless-plugin-webpack)
