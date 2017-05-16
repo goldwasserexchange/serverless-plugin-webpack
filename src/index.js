@@ -62,7 +62,8 @@ class ServerlessPluginWebpack {
         this.originalServicePath,
         webpackDefaultOutput,
         webpackFolder
-      )
+      ),
+      this.serverless
     );
   }
 
