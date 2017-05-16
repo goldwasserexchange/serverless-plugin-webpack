@@ -54,16 +54,6 @@ class ServerlessPluginWebpack {
       this.serverless.service.functions
     );
 
-    // This makes sure every file is excluded and only the fn (webpacked) file is in there
-    // except for node_modules, because those can be copied over
-    // TODO: finetune code and make other includes possible
-    Object.keys(this.serverless.service.functions).map((k) => {
-      this.serverless.service.functions[k].package = Object.assign({}, this.serverless.service.functions[k].package, {
-        individually: true,
-        exclude: ['**', '!node_modules/**'],
-      });
-    });
-
     // Run webpack
     return wpack.run(
       wpack.createConfigs(

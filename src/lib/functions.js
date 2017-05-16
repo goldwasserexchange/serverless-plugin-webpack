@@ -12,16 +12,17 @@ const fnPath = R.compose(handlerPath, handlerProp);
 const fnFilename = R.compose(handlerFile, handlerProp);
 
 const setPackage = fn =>
-  R.assoc(
-    'package',
-    R.objOf(
-      'include',
-      R.compose(list, fnPath)(fn)
-    ),
+  R.merge(
+    {
+      package: {
+        include: R.compose(list, fnPath)(fn), // Only include the webpacked function
+        exclude: ['**', '!node_modules/**'], // This excludes all files except for copied node_modules/** to the artifact
+      },
+    },
     fn
   );
 
-const setPackageAndHandler = R.map(R.compose(setPackage));
+const setPackageAndHandler = R.map(setPackage);
 
 const setArtifacts = (serverlessPath, fns) => R.map(
   R.over(
