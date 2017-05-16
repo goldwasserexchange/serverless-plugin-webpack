@@ -11,11 +11,11 @@ const functions = require('./functions');
  */
 const setEntry = (fn, servicePath) =>
 R.assoc(
-    'entry',
-    R.objOf(
-        functions.fnFilename(fn),
-        path.join(servicePath, functions.fnPath(fn))
-    )
+  'entry',
+  R.objOf(
+    functions.fnFilename(fn),
+    path.join(servicePath, functions.fnPath(fn))
+  )
 );
 
 /**
@@ -26,11 +26,11 @@ R.assoc(
  */
 const setOutput = (defaultOutput, outputPath) =>
 R.assoc(
-    'output',
-    R.merge(
-        defaultOutput,
-        { path: outputPath }
-    )
+  'output',
+  R.merge(
+    defaultOutput,
+    { path: outputPath }
+  )
 );
 
 /**
@@ -44,12 +44,12 @@ R.assoc(
  */
 const createConfigs = (fns, config, servicePath, defaultOutput, folder) =>
 R.map(
-    funcName =>
+  funcName =>
 R.pipe(
-    setEntry(fns[funcName], servicePath),
-    setOutput(defaultOutput, path.join(servicePath, folder, funcName))
+  setEntry(fns[funcName], servicePath),
+  setOutput(defaultOutput, path.join(servicePath, folder, funcName))
 )(config),
-    R.keys(fns)
+  R.keys(fns)
 );
 
 /**
@@ -59,23 +59,23 @@ R.pipe(
  */
 const run = configs =>
 new Promise((resolve, reject) => {
-    webpack(configs, (err, stats) => {
+  webpack(configs, (err, stats) => {
     if (err) reject(`Webpack compilation error: ${err}`);
 
     console.log(stats.toString({ // eslint-disable-line no-console
-        colors: true,
-        hash: false,
-        chunks: false,
-        version: false,
+      colors: true,
+      hash: false,
+      chunks: false,
+      version: false,
     }));
 
     if (stats.hasErrors()) reject('Webpack compilation error, see stats above');
 
     resolve(stats);
-});
+  });
 });
 
 module.exports = {
-    createConfigs,
-    run,
+  createConfigs,
+  run,
 };
