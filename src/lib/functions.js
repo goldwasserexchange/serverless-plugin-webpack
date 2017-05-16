@@ -16,14 +16,12 @@ const setPackage = fn =>
     'package',
     R.objOf(
       'include',
-      R.compose(list, fnFilename)(fn)
+      R.compose(list, fnPath)(fn)
     ),
     fn
   );
 
-const setHandler = R.over(R.lensProp('handler'), path.basename);
-
-const setPackageAndHandler = R.map(R.compose(setHandler, setPackage));
+const setPackageAndHandler = R.map(R.compose(setPackage));
 
 const setArtifacts = (serverlessPath, fns) => R.map(
   R.over(

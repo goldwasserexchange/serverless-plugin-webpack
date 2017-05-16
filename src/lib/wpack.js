@@ -13,7 +13,7 @@ const setEntry = (fn, servicePath) =>
   R.assoc(
     'entry',
     R.objOf(
-      functions.fnFilename(fn),
+      functions.fnPath(fn),
       path.join(servicePath, functions.fnPath(fn))
     )
   );
@@ -25,7 +25,7 @@ const setEntry = (fn, servicePath) =>
  * @returns {object} Webpack configuration
  */
 const setOutput = (defaultOutput, outputPath) =>
-  R.assoc(
+   R.assoc(
     'output',
     R.merge(
       defaultOutput,
