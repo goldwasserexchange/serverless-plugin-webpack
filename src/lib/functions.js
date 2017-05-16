@@ -4,9 +4,7 @@ const list = require('./list');
 
 const handlerProp = R.prop('handler');
 
-const handlerExport = R.compose(R.last, R.split('.'));
-
-const handlerPath = handler => R.replace(handlerExport(handler), 'js', handler);
+const handlerPath = handler => R.replace(/\.[^.]+$/g, '.js', handler);
 const handlerFile = R.compose(path.basename, handlerPath);
 const fnPath = R.compose(handlerPath, handlerProp);
 const fnFilename = R.compose(handlerFile, handlerProp);
