@@ -10,13 +10,13 @@ const functions = require('./functions');
  * @returns {object} Webpack configuration
  */
 const setEntry = (fn, servicePath) =>
-  R.assoc(
+R.assoc(
     'entry',
     R.objOf(
-      functions.fnFilename(fn),
-      path.join(servicePath, functions.fnPath(fn))
+        functions.fnFilename(fn),
+        path.join(servicePath, functions.fnPath(fn))
     )
-  );
+);
 
 /**
  * Sets webpack output in configuration
@@ -25,13 +25,13 @@ const setEntry = (fn, servicePath) =>
  * @returns {object} Webpack configuration
  */
 const setOutput = (defaultOutput, outputPath) =>
-  R.assoc(
+R.assoc(
     'output',
     R.merge(
-      defaultOutput,
-      { path: outputPath }
+        defaultOutput,
+        { path: outputPath }
     )
-  );
+);
 
 /**
  * Creates an array of webpack configurations
@@ -43,14 +43,14 @@ const setOutput = (defaultOutput, outputPath) =>
  * @returns {array} Array of webpack configurations
  */
 const createConfigs = (fns, config, servicePath, defaultOutput, folder) =>
-  R.map(
-    fn =>
-      R.pipe(
-        setEntry(fn, servicePath),
-        setOutput(defaultOutput, path.join(servicePath, folder))
-      )(config),
-    R.values(fns)
-  );
+R.map(
+    funcName =>
+R.pipe(
+    setEntry(fns[funcName], servicePath),
+    setOutput(defaultOutput, path.join(servicePath, folder, funcName))
+)(config),
+    R.keys(fns)
+);
 
 /**
  * Runs webpack with an array of configurations
@@ -58,24 +58,24 @@ const createConfigs = (fns, config, servicePath, defaultOutput, folder) =>
  * @returns {Promise} Webpack stats
  */
 const run = configs =>
-  new Promise((resolve, reject) => {
+new Promise((resolve, reject) => {
     webpack(configs, (err, stats) => {
-      if (err) reject(`Webpack compilation error: ${err}`);
+    if (err) reject(`Webpack compilation error: ${err}`);
 
-      console.log(stats.toString({ // eslint-disable-line no-console
+    console.log(stats.toString({ // eslint-disable-line no-console
         colors: true,
         hash: false,
         chunks: false,
         version: false,
-      }));
+    }));
 
-      if (stats.hasErrors()) reject('Webpack compilation error, see stats above');
+    if (stats.hasErrors()) reject('Webpack compilation error, see stats above');
 
-      resolve(stats);
-    });
-  });
+    resolve(stats);
+});
+});
 
 module.exports = {
-  createConfigs,
-  run,
+    createConfigs,
+    run,
 };

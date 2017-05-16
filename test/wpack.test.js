@@ -22,7 +22,7 @@ const configs = [
     },
     output: {
       libraryTarget: 'commonjs2',
-      path: path.join(servicePath, folder),
+      path: path.join(servicePath, folder, 'get'),
       filename: '[name]',
     },
     externals: [/aws-sdk/],
@@ -33,7 +33,7 @@ const configs = [
     },
     output: {
       libraryTarget: 'commonjs2',
-      path: path.join(servicePath, folder),
+      path: path.join(servicePath, folder, 'post'),
       filename: '[name]',
     },
     externals: [/aws-sdk/],

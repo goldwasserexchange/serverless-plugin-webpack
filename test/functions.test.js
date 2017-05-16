@@ -4,12 +4,12 @@ const fns = require('./fns.js');
 
 const modifiedFns = {
   get: {
-    handler: 'get.handler',
-    package: { include: ['get.js'] },
+    handler: 'get/get.handler',
+    package: { exclude: ['**'], include: ['get/get.js'] },
   },
   post: {
-    handler: 'post.handler',
-    package: { include: ['post.js'] },
+    handler: 'post/post.handler',
+    package: { exclude: ['**'], include: ['post/post.js'] },
   },
 };
 
