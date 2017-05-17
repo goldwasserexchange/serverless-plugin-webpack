@@ -1,27 +1,12 @@
 const path = require('path');
 const R = require('ramda');
-const list = require('./list');
-
-const handlerProp = R.prop('handler');
 
 const handlerPath = R.replace(/\.[^.]+$/, '.js');
-const handlerFile = R.compose(path.basename, handlerPath);
-const fnPath = R.compose(handlerPath, handlerProp);
-const fnFilename = R.compose(handlerFile, handlerProp);
+const fnPath = R.compose(handlerPath, R.prop('handler'));
 
-const setPackage = fn =>
-  R.assoc(
-    'package',
-    R.objOf(
-      'include',
-      R.compose(list, fnFilename)(fn)
-    ),
-    fn
-  );
+const fnInclude = fn => R.objOf('include', [fnPath(fn)]);
 
-const setHandler = R.over(R.lensProp('handler'), path.basename);
-
-const setPackageAndHandler = R.map(R.compose(setHandler, setPackage));
+const setPackage = R.map(fn => R.assoc('package', fnInclude(fn), fn));
 
 const setArtifacts = (serverlessPath, fns) => R.map(
   R.over(
@@ -33,7 +18,6 @@ const setArtifacts = (serverlessPath, fns) => R.map(
 
 module.exports = {
   fnPath,
-  fnFilename,
-  setPackageAndHandler,
+  setPackage,
   setArtifacts,
 };

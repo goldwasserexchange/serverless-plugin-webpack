@@ -13,7 +13,7 @@ const setEntry = (fn, servicePath) =>
   R.assoc(
     'entry',
     R.objOf(
-      functions.fnFilename(fn),
+      functions.fnPath(fn),
       path.join(servicePath, functions.fnPath(fn))
     )
   );
