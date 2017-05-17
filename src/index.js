@@ -49,10 +49,8 @@ class ServerlessPluginWebpack {
       exclude: ['**'],
     };
 
-    // Include bundle and update handler at function level
-    this.serverless.service.functions = functions.setPackageAndHandler(
-      this.serverless.service.functions
-    );
+    // Include bundle at function level
+    this.serverless.service.functions = functions.setPackage(this.serverless.service.functions);
 
     // Run webpack
     return wpack.run(

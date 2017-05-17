@@ -1,28 +1,12 @@
 const path = require('path');
 const R = require('ramda');
-const list = require('./list');
 
-const handlerProp = R.prop('handler');
+const handlerPath = R.replace(/\.[^.]+$/, '.js');
+const fnPath = R.compose(handlerPath, R.prop('handler'));
 
-const handlerExport = R.compose(R.last, R.split('.'));
+const fnInclude = fn => R.objOf('include', [fnPath(fn), 'node_modules/**']);
 
-const handlerPath = handler => R.replace(handlerExport(handler), 'js', handler);
-const handlerFile = R.compose(path.basename, handlerPath);
-const fnPath = R.compose(handlerPath, handlerProp);
-const fnFilename = R.compose(handlerFile, handlerProp);
-
-const setPackage = fn =>
-  R.merge(
-    {
-      package: {
-        include: R.compose(list, fnPath)(fn), // Only include the webpacked function
-        exclude: ['!node_modules/**'], // This reincludes (copied) node_modules/** to the artifact
-      },
-    },
-    fn
-  );
-
-const setPackageAndHandler = R.map(setPackage);
+const setPackage = R.map(fn => R.assoc('package', fnInclude(fn), fn));
 
 const setArtifacts = (serverlessPath, fns) => R.map(
   R.over(
@@ -34,7 +18,6 @@ const setArtifacts = (serverlessPath, fns) => R.map(
 
 module.exports = {
   fnPath,
-  fnFilename,
-  setPackageAndHandler,
+  setPackage,
   setArtifacts,
 };

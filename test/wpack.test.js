@@ -18,7 +18,7 @@ const folder = '.webpack';
 const configs = [
   {
     entry: {
-      'get.js': path.join(servicePath, 'functions/first/get.js'),
+      'functions/first/get.js': path.join(servicePath, 'functions/first/get.js'),
     },
     output: {
       libraryTarget: 'commonjs2',
@@ -29,7 +29,18 @@ const configs = [
   },
   {
     entry: {
-      'post.js': path.join(servicePath, 'functions/post.js'),
+      'functions/second/get.js': path.join(servicePath, 'functions/second/get.js'),
+    },
+    output: {
+      libraryTarget: 'commonjs2',
+      path: path.join(servicePath, folder),
+      filename: '[name]',
+    },
+    externals: [/aws-sdk/],
+  },
+  {
+    entry: {
+      'functions/post.js': path.join(servicePath, 'functions/post.js'),
     },
     output: {
       libraryTarget: 'commonjs2',

@@ -1,6 +1,13 @@
 const originalFns = {
-  get: {
+  firstGet: {
     handler: 'functions/first/get.handler',
+    package: {
+      include: ['*'],
+      exclude: ['abc.js'],
+    },
+  },
+  secondGet: {
+    handler: 'functions/second/get.handler',
     package: {
       include: ['*'],
       exclude: ['abc.js'],
