@@ -3,36 +3,38 @@ const functions = require('../src/lib/functions');
 const fns = require('./fns.js');
 
 const modifiedFns = {
-  get: {
-    handler: 'get/get.handler',
-    package: { exclude: ['**'], include: ['get/get.js'] },
+  firstGet: {
+    handler: 'functions/first/get.handler',
+    package: { include: ['functions/first/get.js'] },
+  },
+  secondGet: {
+    handler: 'functions/second/get.handler',
+    package: { include: ['functions/second/get.js'] },
   },
   post: {
-    handler: 'post/post.handler',
-    package: { exclude: ['**'], include: ['post/post.js'] },
+    handler: 'functions/post.handler',
+    package: { include: ['functions/post.js'] },
   },
 };
 
 const artifactFns = {
-  get: { artifact: '/.serverless/.webpack/service-dev-get.zip' },
+  firstGet: { artifact: '/.serverless/.webpack/service-dev-firstGet.zip' },
+  secondGet: { artifact: '/.serverless/.webpack/service-dev-secondGet.zip' },
   post: { artifact: '/.serverless/.webpack/service-dev-post.zip' },
 };
 
 const modifiedArtifactFns = {
-  get: { artifact: path.join('/.serverless', 'service-dev-get.zip') },
+  firstGet: { artifact: path.join('/.serverless', 'service-dev-firstGet.zip') },
+  secondGet: { artifact: path.join('/.serverless', 'service-dev-secondGet.zip') },
   post: { artifact: path.join('/.serverless', 'service-dev-post.zip') },
 };
 
 test('fnPath', () => {
-  expect(functions.fnPath(fns.get)).toBe('functions/first/get.js');
+  expect(functions.fnPath(fns.firstGet)).toBe('functions/first/get.js');
 });
 
-test('fnFilename', () => {
-  expect(functions.fnFilename(fns.post)).toBe('post.js');
-});
-
-test('setPackageAndHandler', () => {
-  expect(functions.setPackageAndHandler(fns)).toEqual(modifiedFns);
+test('setPackage', () => {
+  expect(functions.setPackage(fns)).toEqual(modifiedFns);
 });
 
 test('setArtifacts', () => {
