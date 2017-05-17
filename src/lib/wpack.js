@@ -25,7 +25,7 @@ const setEntry = (fn, servicePath) =>
  * @returns {object} Webpack configuration
  */
 const setOutput = (defaultOutput, outputPath) =>
-  R.assoc(
+   R.assoc(
     'output',
     R.merge(
       defaultOutput,
@@ -57,22 +57,29 @@ const createConfigs = (fns, config, servicePath, defaultOutput, folder) =>
  * @param {array} configs Array of webpack configurations
  * @returns {Promise} Webpack stats
  */
-const run = configs =>
+const run = (configs, sls) =>
   new Promise((resolve, reject) => {
-    webpack(configs, (err, stats) => {
-      if (err) reject(`Webpack compilation error: ${err}`);
+    configs.map(config => () =>
+      new Promise((res, rej) => {
+        webpack(config, (err, stats) => {
+          sls.cli.log(`Creating: ${Object.keys(config.entry)[0]}`);
+          if (err) reject(`Webpack compilation error: ${err}`);
 
-      console.log(stats.toString({ // eslint-disable-line no-console
-        colors: true,
-        hash: false,
-        chunks: false,
-        version: false,
-      }));
+          console.log(stats.toString({ // eslint-disable-line no-console
+            colors: true,
+            hash: false,
+            chunks: false,
+            version: false,
+          }));
 
-      if (stats.hasErrors()) reject('Webpack compilation error, see stats above');
+          if (stats.hasErrors()) rej('Webpack compilation error, see stats above');
 
-      resolve(stats);
-    });
+          res(stats);
+        });
+      })
+    ).reduce((promise, func) =>
+      promise.then(() => func().then()), Promise.resolve([]))
+    .then(resolve).catch(reject);
   });
 
 module.exports = {
