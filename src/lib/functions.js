@@ -16,7 +16,7 @@ const setPackage = fn =>
     {
       package: {
         include: R.compose(list, fnPath)(fn), // Only include the webpacked function
-        exclude: ['**', '!node_modules/**'], // This excludes all files except for copied node_modules/** to the artifact
+        exclude: ['!node_modules/**'], // This reincludes (copied) node_modules/** to the artifact
       },
     },
     fn
