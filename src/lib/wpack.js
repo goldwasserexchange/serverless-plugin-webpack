@@ -70,7 +70,6 @@ const run = (configs, sls) =>
             hash: false,
             chunks: false,
             version: false,
-            cache: false,
           }));
 
           if (stats.hasErrors()) rej('Webpack compilation error, see stats above');
