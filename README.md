@@ -29,6 +29,9 @@ plugins:
   - serverless-plugin-webpack
 ```
 
+## Package exclude / include
+The plugin will add `'**'` as an `exclude` at the service level and each bundled javascript file as an `include` at the function level. Original includes and excludes specified in your `serverless.yml` are preserved.
+
 ## Webpack configuration
 The plugin will look for a `webpack.config.js` in the service root.
 

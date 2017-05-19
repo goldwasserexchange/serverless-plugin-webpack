@@ -2,20 +2,20 @@ const originalFns = {
   firstGet: {
     handler: 'functions/first/get.handler',
     package: {
-      include: ['*'],
+      include: ['node_modules/**'],
       exclude: ['abc.js'],
     },
   },
   secondGet: {
     handler: 'functions/second/get.handler',
     package: {
-      include: ['*'],
+      include: ['node_modules/**'],
       exclude: ['abc.js'],
     },
   },
   post: {
     handler: 'functions/post.handler',
-    package: { exclude: ['*.js'] },
+    package: { exclude: ['*.sql'] },
   },
 };
 

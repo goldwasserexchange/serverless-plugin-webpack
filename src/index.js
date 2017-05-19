@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const R = require('ramda');
-const functions = require('./lib/functions');
+const service = require('./lib/service');
 const wpack = require('./lib/wpack');
 
 // Folders
@@ -44,13 +44,10 @@ class ServerlessPluginWebpack {
     this.serverless.config.servicePath = path.join(this.originalServicePath, webpackFolder);
 
     // Package individually and exclude everything at the service level
-    this.serverless.service.package = {
-      individually: true,
-      exclude: ['**'],
-    };
+    this.serverless.service.package = service.setPackage(this.serverless.service.package);
 
     // Include bundle at function level
-    this.serverless.service.functions = functions.setPackage(this.serverless.service.functions);
+    this.serverless.service.functions = service.setFnsPackage(this.serverless.service.functions);
 
     // Run webpack
     return wpack.run(
@@ -74,7 +71,7 @@ class ServerlessPluginWebpack {
     return fs.copy(src, dest)
       .then(() => {
         if (type === 'service') {
-          this.serverless.service.functions = functions.setArtifacts(
+          this.serverless.service.functions = service.setFnsArtifacts(
             dest,
             this.serverless.service.functions
           );
