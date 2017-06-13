@@ -4,7 +4,13 @@ node_js:
   - '5'
   - '6'
   - '7'
+before_install:
+  - npm install -g npm@5
+  - npm install -g greenkeeper-lockfile@1
 before_script:
   - npm run lint
+  - greenkeeper-lockfile-update
+after_script:
+  - greenkeeper-lockfile-upload
 after_success:
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
