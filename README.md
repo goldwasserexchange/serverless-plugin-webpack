@@ -33,7 +33,12 @@ plugins:
 The plugin will add `'**'` as an `exclude` at the service level and each bundled javascript file as an `include` at the function level. Original includes and excludes specified in your `serverless.yml` are preserved.
 
 ## Webpack configuration
-The plugin will look for a `webpack.config.js` in the service root.
+By default the plugin will look for a `webpack.config.js` in the service root. You can specify a custom config file in your `serverless.yml`:
+```yaml
+custom:
+  webpack:
+    config: ./path/to/config/file.js
+```
 
 The `entry` and `output` objects are set by the plugin.
 

@@ -8,17 +8,18 @@ const wpack = require('./lib/wpack');
 const serverlessFolder = '.serverless';
 const webpackFolder = '.webpack';
 
-// Webpack default output
+// Webpack defaults
 const webpackDefaultOutput = {
   libraryTarget: 'commonjs2',
   filename: '[name]',
 };
+const webpackDefaultConfig = 'webpack.config.js';
 
 class ServerlessPluginWebpack {
   constructor(serverless, options) {
     this.serverless = serverless;
     this.options = options;
-
+    this.custom = R.pathOr({}, ['custom', 'webpack'], this.serverless.service);
     this.hooks = {
       'before:package:createDeploymentArtifacts': () => this.webpackBundle('service'),
       'after:package:createDeploymentArtifacts': () => this.restoreAndCopy('service'),
@@ -32,7 +33,10 @@ class ServerlessPluginWebpack {
 
     // Load webpack config
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    const webpackConfig = require(path.join(this.serverless.config.servicePath, 'webpack.config.js'));
+    const webpackConfig = require(path.join(
+      this.serverless.config.servicePath,
+      this.custom.config || webpackDefaultConfig
+    ));
 
     // Save original service path and functions
     this.originalServicePath = this.serverless.config.servicePath;
