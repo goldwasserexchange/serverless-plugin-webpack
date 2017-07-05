@@ -29,8 +29,8 @@ test('service package with existing package and include/exclude', () => {
   };
   const expectedPackage = {
     individually: true,
-    include: ['node_modules/**'],
-    exclude: ['*.txt', '**'],
+    include: ['../node_modules/**'],
+    exclude: ['../*.txt', '**'],
   };
   expect(service.setPackage(existingPackage)).toEqual(expectedPackage);
 });
@@ -44,22 +44,22 @@ test('setFnsPackage', () => {
     firstGet: {
       handler: 'functions/first/get.handler',
       package: {
-        include: ['node_modules/**', 'functions/first/get.js'],
-        exclude: ['abc.js'],
+        include: ['../node_modules/**', 'functions/first/get.js'],
+        exclude: ['../abc.js'],
       },
     },
     secondGet: {
       handler: 'functions/second/get.handler',
       package: {
-        include: ['node_modules/**', 'functions/second/get.js'],
-        exclude: ['abc.js'],
+        include: ['../node_modules/**', 'functions/second/get.js'],
+        exclude: ['../abc.js'],
       },
     },
     post: {
       handler: 'functions/post.handler',
       package: {
         include: ['functions/post.js'],
-        exclude: ['*.sql'],
+        exclude: ['../*.sql'],
       },
     },
   };
