@@ -8,10 +8,6 @@ const originalFns = {
   },
   secondGet: {
     handler: 'functions/second/get.handler',
-    package: {
-      include: ['node_modules/**'],
-      exclude: ['abc.js'],
-    },
   },
   post: {
     handler: 'functions/post.handler',

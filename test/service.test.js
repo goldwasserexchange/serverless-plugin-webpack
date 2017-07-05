@@ -2,12 +2,12 @@ const path = require('path');
 const service = require('../src/lib/service');
 const fns = require('./fns.js');
 
-test('service package when no package', () => {
+test('service package when package is undefined', () => {
   const expectedPackage = {
     individually: true,
     exclude: ['**'],
   };
-  expect(service.setPackage({})).toEqual(expectedPackage);
+  expect(service.setPackage(undefined)).toEqual(expectedPackage);
 });
 
 test('service package with existing package and no include/exclude', () => {
@@ -51,8 +51,7 @@ test('setFnsPackage', () => {
     secondGet: {
       handler: 'functions/second/get.handler',
       package: {
-        include: ['../node_modules/**', 'functions/second/get.js'],
-        exclude: ['../abc.js'],
+        include: ['functions/second/get.js'],
       },
     },
     post: {
