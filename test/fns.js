@@ -15,7 +15,7 @@ const originalFns = {
   },
   post: {
     handler: 'functions/post.handler',
-    package: { exclude: ['*.sql'] },
+    package: { exclude: ['*.sql', '!test.sql'] },
   },
 };
 
