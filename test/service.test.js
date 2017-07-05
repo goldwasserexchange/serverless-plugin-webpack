@@ -59,7 +59,7 @@ test('setFnsPackage', () => {
       handler: 'functions/post.handler',
       package: {
         include: ['functions/post.js'],
-        exclude: ['../*.sql'],
+        exclude: ['../*.sql', '!../test.sql'],
       },
     },
   };
