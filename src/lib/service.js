@@ -2,7 +2,7 @@ const path = require('path');
 const R = require('ramda');
 
 const makeRelative = R.replace(/[^!]+$/, R.concat('../'));
-const makeAllRelative = p => R.when(R.has(p), R.over(R.lensProp(p), R.map(makeRelative)));
+const makeAllRelative = p => R.when(R.prop(p), R.over(R.lensProp(p), R.map(makeRelative)));
 const makePackageRelative = R.compose(makeAllRelative('include'), makeAllRelative('exclude'));
 
 const setPackage = R.pipe(
@@ -16,7 +16,7 @@ const fnPath = R.compose(R.replace(/\.[^.]+$/, '.js'), R.prop('handler'));
 
 const setFnsPackage = R.map(
   R.pipe(
-    R.when(R.has('package'), R.over(R.lensProp('package'), makePackageRelative)),
+    R.when(R.prop('package'), R.over(R.lensProp('package'), makePackageRelative)),
     R.converge(
       R.over(R.lensPath(['package', 'include'])),
       [R.compose(R.append, fnPath), R.identity]
