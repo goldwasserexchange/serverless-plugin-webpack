@@ -2,21 +2,31 @@ const path = require('path');
 const service = require('../src/lib/service');
 const fns = require('./fns.js');
 
+const expectedPackage = {
+  individually: true,
+  exclude: ['**'],
+};
+
 test('service package when package is undefined', () => {
-  const expectedPackage = {
-    individually: true,
-    exclude: ['**'],
-  };
   expect(service.setPackage(undefined)).toEqual(expectedPackage);
+});
+
+test('service package when package is an empty object', () => {
+  expect(service.setPackage({})).toEqual(expectedPackage);
 });
 
 test('service package with existing package and no include/exclude', () => {
   const existingPackage = {
     individually: false,
   };
-  const expectedPackage = {
-    individually: true,
-    exclude: ['**'],
+  expect(service.setPackage(existingPackage)).toEqual(expectedPackage);
+});
+
+test('service package with existing package and undefined include/exclude', () => {
+  const existingPackage = {
+    individually: false,
+    include: undefined,
+    exclude: undefined,
   };
   expect(service.setPackage(existingPackage)).toEqual(expectedPackage);
 });
@@ -27,12 +37,12 @@ test('service package with existing package and include/exclude', () => {
     include: ['node_modules/**'],
     exclude: ['*.txt'],
   };
-  const expectedPackage = {
+  const expectedPackageIncExc = {
     individually: true,
     include: ['../node_modules/**'],
     exclude: ['../*.txt', '**'],
   };
-  expect(service.setPackage(existingPackage)).toEqual(expectedPackage);
+  expect(service.setPackage(existingPackage)).toEqual(expectedPackageIncExc);
 });
 
 test('fnPath', () => {
