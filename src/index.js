@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const interpreting = require('interpreting');
 const path = require('path');
 const R = require('ramda');
 const service = require('./lib/service');
@@ -13,7 +14,7 @@ const webpackDefaultOutput = {
   libraryTarget: 'commonjs2',
   filename: '[name]',
 };
-const webpackDefaultConfig = 'webpack.config.js';
+const webpackDefaultConfig = 'webpack.config';
 
 class ServerlessPluginWebpack {
   constructor(serverless, options) {
@@ -32,8 +33,7 @@ class ServerlessPluginWebpack {
     this.serverless.cli.log('Bundling with webpack...');
 
     // Load webpack config
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    const webpackConfig = require(path.join(
+    const webpackConfig = interpreting(path.join(
       this.serverless.config.servicePath,
       this.custom.config || webpackDefaultConfig
     ));

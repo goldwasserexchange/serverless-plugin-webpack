@@ -29,6 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "fs-extra": "^3.0.0",
+    "interpreting": "^0.0.1",
     "ramda": "^0.24.1"
   },
   "devDependencies": {
