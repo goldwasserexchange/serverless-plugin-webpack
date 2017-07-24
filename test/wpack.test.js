@@ -61,7 +61,7 @@ describe('run', () => {
   test('run', () =>
     wpack.run('config')
       .then(stats => expect(stats.data).toBe('config'))
-    );
+  );
 
   test('run with error', () =>
     wpack.run('err')
