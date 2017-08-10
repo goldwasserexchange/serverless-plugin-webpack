@@ -23,8 +23,10 @@ class ServerlessPluginWebpack {
     this.hooks = {
       'before:package:createDeploymentArtifacts': () => this.webpackBundle('service'),
       'after:package:createDeploymentArtifacts': () => this.restoreAndCopy('service'),
+      'after:package:finalize': () => this.clean(),
       'before:deploy:function:packageFunction': () => this.webpackBundle('function'),
       'after:deploy:function:packageFunction': () => this.restoreAndCopy('function'),
+      'after:deploy:function:deploy': () => this.clean(),
     };
   }
 
@@ -79,9 +81,13 @@ class ServerlessPluginWebpack {
             dest,
             this.serverless.service.functions
           );
-          fs.remove(path.join(this.originalServicePath, webpackFolder));
         }
+        return Promise.resolve();
       });
+  }
+
+  clean() {
+    return fs.remove(path.join(this.originalServicePath, webpackFolder));
   }
 }
 
