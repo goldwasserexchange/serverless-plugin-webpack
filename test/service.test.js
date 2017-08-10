@@ -77,15 +77,15 @@ test('setFnsPackage', () => {
 
 test('setArtifacts', () => {
   const artifactFns = {
-    firstGet: { artifact: '/.serverless/.webpack/service-dev-firstGet.zip' },
-    secondGet: { artifact: '/.serverless/.webpack/service-dev-secondGet.zip' },
-    post: { artifact: '/.serverless/.webpack/service-dev-post.zip' },
+    firstGet: { package: { artifact: '/.serverless/.webpack/service-dev-firstGet.zip' } },
+    secondGet: { package: { artifact: '/.serverless/.webpack/service-dev-secondGet.zip' } },
+    post: { package: { artifact: '/.serverless/.webpack/service-dev-post.zip' } },
   };
 
   const modifiedArtifactFns = {
-    firstGet: { artifact: path.join('/.serverless', 'service-dev-firstGet.zip') },
-    secondGet: { artifact: path.join('/.serverless', 'service-dev-secondGet.zip') },
-    post: { artifact: path.join('/.serverless', 'service-dev-post.zip') },
+    firstGet: { package: { artifact: path.join('/.serverless', 'service-dev-firstGet.zip') } },
+    secondGet: { package: { artifact: path.join('/.serverless', 'service-dev-secondGet.zip') } },
+    post: { package: { artifact: path.join('/.serverless', 'service-dev-post.zip') } },
   };
   expect(service.setFnsArtifacts('/.serverless', artifactFns)).toEqual(modifiedArtifactFns);
 });
