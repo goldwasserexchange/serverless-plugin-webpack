@@ -71,7 +71,7 @@ class ServerlessPluginWebpack {
     // Restore service path
     this.serverless.config.servicePath = this.originalServicePath;
 
-    // Copy .webpack/.serverless to .serverless and remove .webpack
+    // Copy .webpack/.serverless to .serverless and set artifacts
     const src = path.join(this.originalServicePath, webpackFolder, serverlessFolder);
     const dest = path.join(this.originalServicePath, serverlessFolder);
     return fs.copy(src, dest)
