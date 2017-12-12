@@ -75,7 +75,26 @@ const run = configs =>
     });
   });
 
+/**
+ * Runs webpack with an array of configurations in series
+ * @param {array} configs Array of webpack configurations
+ * @param {serverless} sls Serverless instance
+ * @returns {Promise} Webpack stats
+ */
+const runSeries = (configs, sls) =>
+  new Promise((resolve, reject) => {
+    configs
+      .map(config => () => {
+        sls.cli.log(`Creating: ${Object.keys(config.entry)[0]}`);
+        return run(config);
+      })
+      .reduce((promise, func) =>
+        promise.then(() => func().then()), Promise.resolve([]))
+      .then(resolve).catch(reject);
+  });
+
 module.exports = {
   createConfigs,
   run,
+  runSeries,
 };

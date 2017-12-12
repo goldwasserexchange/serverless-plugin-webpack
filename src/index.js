@@ -55,14 +55,19 @@ class ServerlessPluginWebpack {
     // Include bundle at function level
     this.serverless.service.functions = service.setFnsPackage(this.serverless.service.functions);
 
+    const runWebpack = this.custom.series ? wpack.runSeries : wpack.run;
+
     // Run webpack
-    return wpack.run(wpack.createConfigs(
-      this.originalFunctions,
-      webpackConfig,
-      this.originalServicePath,
-      webpackDefaultOutput,
-      webpackFolder
-    ));
+    return runWebpack(
+      wpack.createConfigs(
+        this.originalFunctions,
+        webpackConfig,
+        this.originalServicePath,
+        webpackDefaultOutput,
+        webpackFolder
+      ),
+      this.serverless
+    );
   }
 
   restoreAndCopy(type) {
