@@ -7,14 +7,15 @@ const service = require('./service');
  * Sets webpack entry
  * @param {object} fn Serverless function object
  * @param {string} servicePath Serverless service path
+ * @param {boolean} useTypeScript Use .ts extension
  * @returns {object} Webpack configuration
  */
-const setEntry = (fn, servicePath) =>
+const setEntry = (fn, servicePath, useTypeScript) =>
   R.assoc(
     'entry',
     R.objOf(
-      service.fnPath(fn),
-      path.join(servicePath, service.fnPath(fn))
+      service.fnPath('.js')(fn),
+      path.join(servicePath, service.fnPath(useTypeScript ? '.ts' : '.js')(fn))
     )
   );
 
@@ -40,13 +41,14 @@ const setOutput = (defaultOutput, outputPath) =>
  * @param {string} servicePath Serverless service path
  * @param {object} defaultOutput Webpack default output object
  * @param {string} folder Webpack output folder
+ * @param {boolean} useTypeScript Use .ts extension
  * @returns {array} Array of webpack configurations
  */
-const createConfigs = (fns, config, servicePath, defaultOutput, folder) =>
+const createConfigs = (fns, config, servicePath, defaultOutput, folder, useTypeScript) =>
   R.map(
     fn =>
       R.pipe(
-        setEntry(fn, servicePath),
+        setEntry(fn, servicePath, useTypeScript),
         setOutput(defaultOutput, path.join(servicePath, folder))
       )(config),
     R.values(fns)

@@ -61,7 +61,8 @@ class ServerlessPluginWebpack {
       webpackConfig,
       this.originalServicePath,
       webpackDefaultOutput,
-      webpackFolder
+      webpackFolder,
+      this.custom.typescript,
     ));
   }
 
@@ -85,7 +86,7 @@ class ServerlessPluginWebpack {
   }
 
   clean() {
-    return fs.remove(path.join(this.originalServicePath, webpackFolder));
+    // return fs.remove(path.join(this.originalServicePath, webpackFolder));
   }
 }
 
