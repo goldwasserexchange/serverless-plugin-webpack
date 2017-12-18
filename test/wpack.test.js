@@ -60,16 +60,13 @@ describe('run', () => {
 
   test('run', () =>
     wpack.run('config')
-      .then(stats => expect(stats.data).toBe('config'))
-  );
+      .then(stats => expect(stats.data).toBe('config')));
 
   test('run with error', () =>
     wpack.run('err')
-      .catch(err => expect(err).toMatch(/err/))
-  );
+      .catch(err => expect(err).toMatch(/err/)));
 
   test('run with stats error', () =>
     wpack.run('statsError')
-      .catch(err => expect(err).toMatch(/stats/))
-  );
+      .catch(err => expect(err).toMatch(/stats/)));
 });

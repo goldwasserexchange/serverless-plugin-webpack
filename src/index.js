@@ -56,15 +56,13 @@ class ServerlessPluginWebpack {
     this.serverless.service.functions = service.setFnsPackage(this.serverless.service.functions);
 
     // Run webpack
-    return wpack.run(
-      wpack.createConfigs(
-        this.originalFunctions,
-        webpackConfig,
-        this.originalServicePath,
-        webpackDefaultOutput,
-        webpackFolder
-      )
-    );
+    return wpack.run(wpack.createConfigs(
+      this.originalFunctions,
+      webpackConfig,
+      this.originalServicePath,
+      webpackDefaultOutput,
+      webpackFolder
+    ));
   }
 
   restoreAndCopy(type) {

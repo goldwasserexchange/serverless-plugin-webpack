@@ -60,7 +60,7 @@ const createConfigs = (fns, config, servicePath, defaultOutput, folder) =>
 const run = configs =>
   new Promise((resolve, reject) => {
     webpack(configs, (err, stats) => {
-      if (err) reject(`Webpack compilation error: ${err}`);
+      if (err) reject(new Error(`Webpack compilation error: ${err}`));
 
       console.log(stats.toString({ // eslint-disable-line no-console
         colors: true,
@@ -69,7 +69,7 @@ const run = configs =>
         version: false,
       }));
 
-      if (stats.hasErrors()) reject('Webpack compilation error, see stats above');
+      if (stats.hasErrors()) reject(new Error('Webpack compilation error, see stats above'));
 
       resolve(stats);
     });
