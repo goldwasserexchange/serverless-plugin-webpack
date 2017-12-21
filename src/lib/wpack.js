@@ -78,14 +78,13 @@ const run = configs =>
 /**
  * Runs webpack with an array of configurations in series
  * @param {array} configs Array of webpack configurations
- * @param {serverless} sls Serverless instance
  * @returns {Promise} Webpack stats
  */
-const runSeries = (configs, sls) =>
+const runSeries = configs =>
   new Promise((resolve, reject) => {
     configs
       .map(config => () => {
-        sls.cli.log(`Creating: ${Object.keys(config.entry)[0]}`);
+        console.log(`Creating: ${Object.keys(config.entry)[0]}`); // eslint-disable-line no-console
         return run(config);
       })
       .reduce((promise, func) =>
