@@ -14,14 +14,13 @@ const setPackage = R.pipe(
 
 const fnPath = extension => R.compose(R.replace(/\.[^.]+$/, extension), R.prop('handler'));
 
-const setFnsPackage = R.map(
-  R.pipe(
-    R.when(R.prop('package'), R.over(R.lensProp('package'), makePackageRelative)),
-    R.converge(
-      R.over(R.lensPath(['package', 'include'])),
-      [R.compose(R.append, fnPath('.js')), R.identity]
-    )
-  ));
+const setFnsPackage = R.map(R.pipe(
+  R.when(R.prop('package'), R.over(R.lensProp('package'), makePackageRelative)),
+  R.converge(
+    R.over(R.lensPath(['package', 'include'])),
+    [R.compose(R.append, fnPath('.js')), R.identity]
+  )
+));
 
 const setFnsArtifacts = (serverlessPath, fns) => R.map(
   R.over(
