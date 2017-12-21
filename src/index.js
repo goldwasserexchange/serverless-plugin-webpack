@@ -58,15 +58,13 @@ class ServerlessPluginWebpack {
     const runWebpack = this.custom.series ? wpack.runSeries : wpack.run;
 
     // Run webpack
-    return runWebpack(
-      wpack.createConfigs(
-        this.originalFunctions,
-        webpackConfig,
-        this.originalServicePath,
-        webpackDefaultOutput,
-        webpackFolder
-      )
-    );
+    return runWebpack(wpack.createConfigs(
+      this.originalFunctions,
+      webpackConfig,
+      this.originalServicePath,
+      webpackDefaultOutput,
+      webpackFolder
+    ));
   }
 
   restoreAndCopy(type) {
