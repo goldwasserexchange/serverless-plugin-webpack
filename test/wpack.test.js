@@ -59,14 +59,14 @@ describe('run', () => {
   require('webpack'); // eslint-disable-line global-require, import/no-unresolved
 
   test('run', () =>
-    wpack.run('config')
+    wpack.run('config', config)
       .then(stats => expect(stats.data).toBe('config')));
 
   test('run with error', () =>
-    wpack.run('err')
+    wpack.run('err', config)
       .catch(err => expect(err.message).toMatch(/err/)));
 
   test('run with stats error', () =>
-    wpack.run('statsError')
+    wpack.run('statsError', config)
       .catch(err => expect(err.message).toMatch(/stats/)));
 });
