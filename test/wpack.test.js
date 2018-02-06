@@ -60,7 +60,7 @@ describe('run', () => {
 
   test('run with default stats', () =>
     wpack.run('config')
-      .then(stats => {
+      .then((stats) => {
         expect(stats.data).toBe('config');
         expect(stats.toString).toHaveBeenCalledWith({
           colors: true,
@@ -73,8 +73,7 @@ describe('run', () => {
   test('run with custom stats', () =>
     wpack.run([{ name: 'config1', stats: { colors: false } }])
       .then(stats =>
-        expect(stats.toString).toHaveBeenCalledWith({ colors: false })
-      ));
+        expect(stats.toString).toHaveBeenCalledWith({ colors: false })));
 
   test('run with error', () =>
     wpack.run('err')
