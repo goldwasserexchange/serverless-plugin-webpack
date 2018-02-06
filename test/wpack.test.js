@@ -58,15 +58,29 @@ test('createConfigs', () => {
 describe('run', () => {
   require('webpack'); // eslint-disable-line global-require, import/no-unresolved
 
-  test('run', () =>
-    wpack.run('config', config)
-      .then(stats => expect(stats.data).toBe('config')));
+  test('run with default stats', () =>
+    wpack.run('config')
+      .then(stats => {
+        expect(stats.data).toBe('config');
+        expect(stats.toString).toHaveBeenCalledWith({
+          colors: true,
+          hash: false,
+          chunks: false,
+          version: false,
+        });
+      }));
+
+  test('run with custom stats', () =>
+    wpack.run([{ name: 'config1', stats: { colors: false } }])
+      .then(stats =>
+        expect(stats.toString).toHaveBeenCalledWith({ colors: false })
+      ));
 
   test('run with error', () =>
-    wpack.run('err', config)
+    wpack.run('err')
       .catch(err => expect(err.message).toMatch(/err/)));
 
   test('run with stats error', () =>
-    wpack.run('statsError', config)
+    wpack.run('statsError')
       .catch(err => expect(err.message).toMatch(/stats/)));
 });

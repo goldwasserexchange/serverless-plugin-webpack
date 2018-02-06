@@ -55,16 +55,15 @@ const createConfigs = (fns, config, servicePath, defaultOutput, folder) =>
 /**
  * Runs webpack with an array of configurations
  * @param {array} configs Array of webpack configurations
- * @param {any} webpackConfig base webpack config
  * @returns {Promise} Webpack stats
  */
-const run = (configs, webpackConfig) =>
+const run = configs =>
   new Promise((resolve, reject) => {
     webpack(configs, (err, stats) => {
       if (err) reject(new Error(`Webpack compilation error: ${err}`));
 
       // eslint-disable-next-line no-console
-      console.log(stats.toString(webpackConfig.stats ? webpackConfig.stats : {
+      console.log(stats.toString(configs[0].stats ? configs[0].stats : {
         colors: true,
         hash: false,
         chunks: false,

@@ -62,7 +62,7 @@ class ServerlessPluginWebpack {
       this.originalServicePath,
       webpackDefaultOutput,
       webpackFolder
-    ), webpackConfig);
+    ));
   }
 
   restoreAndCopy(type) {

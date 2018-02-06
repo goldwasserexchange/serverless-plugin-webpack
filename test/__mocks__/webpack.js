@@ -5,7 +5,7 @@ module.exports = (configs, callback) => {
   const stats = {
     data: configs,
     hasErrors: () => configs === 'statsError',
-    toString: () => configs,
+    toString: jest.fn(),
   };
 
   return callback(null, stats);
