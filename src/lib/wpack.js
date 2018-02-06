@@ -62,7 +62,8 @@ const run = configs =>
     webpack(configs, (err, stats) => {
       if (err) reject(new Error(`Webpack compilation error: ${err}`));
 
-      console.log(stats.toString({ // eslint-disable-line no-console
+      // eslint-disable-next-line no-console
+      console.log(stats.toString(configs[0].stats ? configs[0].stats : {
         colors: true,
         hash: false,
         chunks: false,
