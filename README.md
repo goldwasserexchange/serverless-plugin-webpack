@@ -38,6 +38,7 @@ By default the plugin will look for a `webpack.config.js` in the service root. Y
 custom:
   webpack:
     config: ./path/to/config/file.js
+    typescript: true # set to true if your project uses TypeScript and have configured the appropriate Webpack loader, defaults to false
 ```
 
 The `entry` and `output` objects are set by the plugin.
