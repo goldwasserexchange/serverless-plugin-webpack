@@ -77,20 +77,8 @@ const run = configs =>
 
 /**
  * Runs webpack with an array of configurations in series
- * @param {array} configs Array of webpack configurations
- * @returns {Promise} Webpack stats
  */
-const runSeries = configs =>
-  new Promise((resolve, reject) => {
-    configs
-      .map(config => () => {
-        console.log(`Creating: ${Object.keys(config.entry)[0]}`); // eslint-disable-line no-console
-        return run(config);
-      })
-      .reduce((promise, func) =>
-        promise.then(() => func().then()), Promise.resolve([]))
-      .then(resolve).catch(reject);
-  });
+const runSeries = R.reduce((promise, config) => promise.then(() => run(config)), Promise.resolve());
 
 module.exports = {
   createConfigs,
