@@ -76,7 +76,13 @@ const run = configs =>
     });
   });
 
+/**
+ * Runs webpack with an array of configurations in series
+ */
+const runSeries = R.reduce((promise, config) => promise.then(() => run(config)), Promise.resolve());
+
 module.exports = {
   createConfigs,
   run,
+  runSeries,
 };
