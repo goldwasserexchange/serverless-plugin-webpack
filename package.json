@@ -28,7 +28,7 @@
   "author": "Jonathan Goldwasser <jonathan@goldwasserexchange.be>",
   "license": "MIT",
   "dependencies": {
-    "fs-extra": "^5.0.0",
+    "fs-extra": "^8.0.1",
     "ramda": "^0.25.0"
   },
   "devDependencies": {
